@@ -112,8 +112,8 @@ public class RegisterActivity extends AppCompatActivity {
                             });
                 }
                 else {
-                    Toast.makeText(RegisterActivity.this, "Номер" + phonenumber +"уже зарегистрирован", Toast.LENGTH_SHORT).show();
                     loadingBar.dismiss();
+                    Toast.makeText(RegisterActivity.this, "Номер" + phonenumber +"уже зарегистрирован", Toast.LENGTH_SHORT).show();
                     Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(loginIntent);
                 }

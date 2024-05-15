@@ -1,17 +1,32 @@
 package com.example.firestore;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.firestore.Model.Users;
+import com.example.firestore.Prevalent.Prevalent;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import io.paperdb.Paper;
+
 public class MainActivity extends AppCompatActivity {
+    private ProgressDialog loadingBar;
 
     private Button login_button, join_button;
 
@@ -27,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         });
         join_button = (Button) findViewById(R.id.main_join_button);
         login_button = (Button) findViewById(R.id.main_login_button);
+        Paper.init(this);
+        loadingBar = new ProgressDialog(this);
 
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +60,54 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(joinIntent);
             }
         });
+        String UserPhoneKey = Paper.book().read(Prevalent.UserPhoneKey);
+        String UserPasswordKey = Paper.book().read(Prevalent.UserPasswordKey);
 
+        if (UserPhoneKey != "" && UserPasswordKey != "") {
+            if (!TextUtils.isEmpty(UserPhoneKey) && (!TextUtils.isEmpty(UserPasswordKey))) {
+                ValidateUser(UserPhoneKey, UserPasswordKey);
+                loadingBar.setTitle("Вход в аккаунт");
+                loadingBar.setMessage("Пожалуйста подождите");
+                loadingBar.setCanceledOnTouchOutside(false);
+                loadingBar.show();
+            }
+        }
+    }
+
+    private void ValidateUser(final String phoneNumber, String password) {
+
+        final DatabaseReference RootRef;
+        RootRef = FirebaseDatabase.getInstance().getReference();
+        RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child("Users").child(phoneNumber).exists()) {
+                    Users usersData = dataSnapshot.child("Users").child(phoneNumber).getValue(Users.class);
+
+                    if (usersData.getPhone().equals(phoneNumber)) {
+                        if (usersData.getPassword().equals(password)) {
+                            loadingBar.dismiss();
+                            Toast.makeText(MainActivity.this, "Success!!!", Toast.LENGTH_SHORT).show();
+                            Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
+                            startActivity(homeIntent);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Неверный пароль!", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(MainActivity.this, "Неверный номер телефона", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(MainActivity.this, "Вход не выполнен", Toast.LENGTH_SHORT).show();
+
+                    loadingBar.dismiss();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

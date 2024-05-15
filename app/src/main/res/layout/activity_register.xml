@@ -73,7 +73,7 @@
         android:layout_marginBottom="30dp"
         android:background="@drawable/input_desigh"
         android:padding="15dp"
-        android:text="Войти"
+        android:text="Зарегистрироватся"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
         android:textSize="15dp" />
