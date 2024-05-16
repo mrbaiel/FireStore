@@ -81,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void ValidatePhone(String username, String phonenumber, String password) {
+    private void ValidatePhone(final String username,final String phonenumber,final String password) {
         final DatabaseReference RootRef;
         RootRef = FirebaseDatabase.getInstance().getReference();
 
@@ -90,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(!(dataSnapshot.child("Users").child(phonenumber).exists())) {
                     HashMap<String, Object> userDataMap = new HashMap<>();
-                    userDataMap.put("phone number", phonenumber);
+                    userDataMap.put("phone", phonenumber);
                     userDataMap.put("name", username);
                     userDataMap.put("password", password);
 
@@ -113,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else {
                     loadingBar.dismiss();
-                    Toast.makeText(RegisterActivity.this, "Номер" + phonenumber +"уже зарегистрирован", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Номер " + phonenumber +" уже зарегистрирован", Toast.LENGTH_SHORT).show();
                     Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(loginIntent);
                 }

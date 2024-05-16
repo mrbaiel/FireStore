@@ -74,32 +74,36 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void ValidateUser(final String phoneNumber, String password) {
-
+    private void ValidateUser(final String phone, final String password) {
         final DatabaseReference RootRef;
         RootRef = FirebaseDatabase.getInstance().getReference();
+
         RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("Users").child(phoneNumber).exists()) {
-                    Users usersData = dataSnapshot.child("Users").child(phoneNumber).getValue(Users.class);
+                if(dataSnapshot.child("Users").child(phone).exists())
+                {
+                    Users usersData = dataSnapshot.child("Users").child(phone).getValue(Users.class);
 
-                    if (usersData.getPhone().equals(phoneNumber)) {
-                        if (usersData.getPassword().equals(password)) {
+                    if(usersData.getPhone().equals(phone))
+                    {
+                        if(usersData.getPassword().equals(password))
+                        {
                             loadingBar.dismiss();
-                            Toast.makeText(MainActivity.this, "Success!!!", Toast.LENGTH_SHORT).show();
-                            Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
-                            startActivity(homeIntent);
-                        } else {
-                            Toast.makeText(MainActivity.this, "Неверный пароль!", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(MainActivity.this, "Неверный номер телефона", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(MainActivity.this, "Вход не выполнен", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Успешный вход!", Toast.LENGTH_SHORT).show();
 
+                            Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
+                            Prevalent.currentOnlineUser = usersData;
+                            startActivity(homeIntent);
+                        }
+                        else {
+                            loadingBar.dismiss();
+                        }
+                    }
+                }
+                else {
                     loadingBar.dismiss();
+                    Toast.makeText(MainActivity.this, "Аккаунт с номером " + phone + "не существует", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -110,4 +114,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }

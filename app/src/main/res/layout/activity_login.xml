@@ -117,7 +117,7 @@
         android:layout_below="@+id/login_button"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:text="Для клиентов"
+        android:text="Назад"
         android:textColor="@android:color/black"
         android:textAllCaps="true"
         android:textStyle="bold"

@@ -1,12 +1,16 @@
 package com.example.firestore;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,11 +32,12 @@ import com.rey.material.widget.CheckBox;
 import io.paperdb.Paper;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText phone_number, password;
-    private Button loginButton;
+    private EditText phoneInput, passwordInput;
+    private Button loginBtn;
     private ProgressDialog loadingBar;
-    private String parentDBName = "Users";
+    private String parentDbName = "Users";
     private CheckBox checkBoxRememberMe;
+    private TextView AdminLink, ClientLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,71 +50,124 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        loginButton = (Button) findViewById(R.id.login_button);
-        phone_number = (EditText) findViewById(R.id.login_phone_number);
-        password = (EditText) findViewById(R.id.login_password);
+        loginBtn = (Button) findViewById(R.id.login_button);
+        phoneInput = (EditText) findViewById(R.id.login_phone_number);
+        passwordInput = (EditText) findViewById(R.id.login_password);
         loadingBar = new ProgressDialog(this);
         checkBoxRememberMe = (CheckBox)findViewById(R.id.checkbox);
+        AdminLink = (TextView)findViewById(R.id.admin_panel);
+        ClientLink = (TextView)findViewById(R.id.client_panel);
         Paper.init(this) ;
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        loginBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 loginUser();
             }
         });
+        AdminLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdminLink.setVisibility(View.INVISIBLE);
+                ClientLink.setVisibility(View.VISIBLE);
+                loginBtn.setText("Вход для админа");
+                parentDbName = "Admins";
+            }
+        });
+        ClientLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parentDbName = "Users";
+                AdminLink.setVisibility(View.VISIBLE);
+                ClientLink.setVisibility(View.INVISIBLE);
+                loginBtn.setText("Войти");
+            }
+        });
+
     }
 
-    public void loginUser() {
-        String phoneInput = phone_number.getText().toString();
-        String passwordInput = password.getText().toString();
+    private void loginUser() {
+        String phone = phoneInput.getText().toString();
+        String password = passwordInput.getText().toString();
 
-        if (TextUtils.isEmpty(phoneInput)) {
+        if(TextUtils.isEmpty(phone))
+        {
             Toast.makeText(this, "Введите имя номер телефона", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(passwordInput)) {
+        }
+        else if(TextUtils.isEmpty(password))
+        {
             Toast.makeText(this, "Введите имя пароль", Toast.LENGTH_SHORT).show();
-        } else {
-            loadingBar.setTitle("Вход в аккаунт");
+        }
+        else
+        {
+            loadingBar.setTitle("Вход в аккаунт...");
             loadingBar.setMessage("Пожалуйста подождите");
             loadingBar.setCanceledOnTouchOutside(false);
             loadingBar.show();
 
-            ValidateUser(phoneInput, passwordInput);
+            ValidateUser(phone, password);
         }
     }
 
-    private void ValidateUser(final String phoneNumber, String password) {
+    private void ValidateUser(final String phone, final String password) {
+
         if(checkBoxRememberMe.isChecked()){
-            Paper.book().write(Prevalent.UserPhoneKey, phoneNumber);
+            Paper.book().write(Prevalent.UserPhoneKey, phone);
             Paper.book().write(Prevalent.UserPasswordKey, password);
         }
+
         final DatabaseReference RootRef;
         RootRef = FirebaseDatabase.getInstance().getReference();
+
         RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(parentDBName).child(phoneNumber).exists()) {
-                    Users usersData = dataSnapshot.child(parentDBName).child(phoneNumber).getValue(Users.class);
+                boolean admin = dataSnapshot.child(parentDbName).child(phone).exists();
 
-                    if(usersData.getPhone().equals(phoneNumber)){
-                        if(usersData.getPassword().equals(password)){
+                Toast.makeText(LoginActivity.this, "1st step"+admin, Toast.LENGTH_SHORT).show();
+
+                if(dataSnapshot.child(parentDbName).child(phone).exists())
+                {
+                    Users usersData = dataSnapshot.child(parentDbName).child(phone).getValue(Users.class);
+
+                    Toast.makeText(LoginActivity.this, "phone = "+ usersData.getPhone(), Toast.LENGTH_SHORT).show();
+
+                    if(usersData.getPhone().equals(phone))
+                    {
+                        Toast.makeText(LoginActivity.this, "3rd step "+admin, Toast.LENGTH_SHORT).show();
+
+                        if(usersData.getPassword().equals(password))
+                        {
+                            Toast.makeText(LoginActivity.this, "4th step"+admin, Toast.LENGTH_SHORT).show();
+
+                            if(parentDbName.equals("Users")){
+                                loadingBar.dismiss();
+                                Toast.makeText(LoginActivity.this, "Вы вошли в свой аккаунт!", Toast.LENGTH_SHORT).show();
+
+                                Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                                startActivity(homeIntent);
+                            }
+                            else if(parentDbName.equals("Admins")){
+                                loadingBar.dismiss();
+                                Toast.makeText(LoginActivity.this, "Вы вошли в аккаунт админа!", Toast.LENGTH_SHORT).show();
+
+                                Intent adminIntent = new Intent(LoginActivity.this, AdminAddNewProductActivity.class);
+                                startActivity(adminIntent);
+                            }
+                        }
+                        else {
                             loadingBar.dismiss();
-                            Toast.makeText(LoginActivity.this, "Success!!!", Toast.LENGTH_SHORT).show();
-                            Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(homeIntent);
+                            Toast.makeText(LoginActivity.this, "Неверный пароль", Toast.LENGTH_SHORT).show();
                         }
-                        else{
-                            Toast.makeText(LoginActivity.this, "Неверный пароль!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    else{
-                        Toast.makeText(LoginActivity.this, "Неверный номер телефона", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
-                    Toast.makeText(LoginActivity.this, "Вход не выполнен", Toast.LENGTH_SHORT).show();
-
                     loadingBar.dismiss();
+                    Toast.makeText(LoginActivity.this, "Аккаунт с номером " + phone + " не существует", Toast.LENGTH_SHORT).show();
 
+                    Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                    startActivity(registerIntent);
                 }
             }
 
@@ -119,4 +177,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 }

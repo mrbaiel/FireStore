@@ -1,15 +1,16 @@
 package com.example.firestore.Model;
 
 public class Users {
-    private String name, phone, password;
+    private String name , password, phone;
 
-    public Users(){
+    public Users()
+    {
     }
 
     public Users(String name, String phone, String password) {
         this.name = name;
-        this.phone = phone;
         this.password = password;
+        this.phone = phone;
     }
 
     public String getName() {
