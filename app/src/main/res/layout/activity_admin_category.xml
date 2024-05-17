@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Admin.AdminCategoryActivity">
+
+    <TextView
+        android:id="@+id/words"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выберите категорию"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        />
+    
+    <LinearLayout
+        android:id="@+id/firstline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/words">
+
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/book"
+            />
+            />
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/dishes"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/secondline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/firstline">
+
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/headphones"
+            />
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/phone"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/thirdline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/secondline">
+
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/gaming"
+            />
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/work"
+            />
+    </LinearLayout>
+</RelativeLayout>

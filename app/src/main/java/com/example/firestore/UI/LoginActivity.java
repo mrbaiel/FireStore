@@ -1,12 +1,9 @@
-package com.example.firestore;
-
-import static android.content.ContentValues.TAG;
+package com.example.firestore.UI;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,8 +17,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.firestore.UI.Admin.AdminAddNewProductActivity;
 import com.example.firestore.Model.Users;
 import com.example.firestore.Prevalent.Prevalent;
+import com.example.firestore.R;
+import com.example.firestore.UI.User.HomeActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -123,37 +123,32 @@ public class LoginActivity extends AppCompatActivity {
         RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean admin = dataSnapshot.child(parentDbName).child(phone).exists();
-
-                Toast.makeText(LoginActivity.this, "1st step"+admin, Toast.LENGTH_SHORT).show();
-
                 if(dataSnapshot.child(parentDbName).child(phone).exists())
                 {
                     Users usersData = dataSnapshot.child(parentDbName).child(phone).getValue(Users.class);
 
-                    Toast.makeText(LoginActivity.this, "phone = "+ usersData.getPhone(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Phone validate:" + usersData.getPhone().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Passw:" + usersData.getPassword(), Toast.LENGTH_SHORT).show();
 
                     if(usersData.getPhone().equals(phone))
                     {
-                        Toast.makeText(LoginActivity.this, "3rd step "+admin, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Phone validate", Toast.LENGTH_SHORT).show();
 
                         if(usersData.getPassword().equals(password))
                         {
-                            Toast.makeText(LoginActivity.this, "4th step"+admin, Toast.LENGTH_SHORT).show();
-
                             if(parentDbName.equals("Users")){
                                 loadingBar.dismiss();
-                                Toast.makeText(LoginActivity.this, "Вы вошли в свой аккаунт!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Успешный вход!", Toast.LENGTH_SHORT).show();
 
                                 Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
                                 startActivity(homeIntent);
                             }
                             else if(parentDbName.equals("Admins")){
                                 loadingBar.dismiss();
-                                Toast.makeText(LoginActivity.this, "Вы вошли в аккаунт админа!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Успешный вход!", Toast.LENGTH_SHORT).show();
 
-                                Intent adminIntent = new Intent(LoginActivity.this, AdminAddNewProductActivity.class);
-                                startActivity(adminIntent);
+                                Intent homeIntent = new Intent(LoginActivity.this, AdminAddNewProductActivity.class);
+                                startActivity(homeIntent);
                             }
                         }
                         else {
@@ -164,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else {
                     loadingBar.dismiss();
-                    Toast.makeText(LoginActivity.this, "Аккаунт с номером " + phone + " не существует", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Аккаунт с номером " + phone + "не существует", Toast.LENGTH_SHORT).show();
 
                     Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
                     startActivity(registerIntent);
