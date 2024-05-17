@@ -13,6 +13,8 @@ import com.example.firestore.R;
 
 public class AdminAddNewProductActivity extends AppCompatActivity {
 
+    private String categoryName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +26,7 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
             return insets;
         });
 
-        Toast.makeText(this, "Привет админ", Toast.LENGTH_SHORT).show();
+        categoryName = getIntent().getExtras().get("Category").toString();
+        Toast.makeText(this, "Категория : " + categoryName, Toast.LENGTH_SHORT).show();
     }
 }

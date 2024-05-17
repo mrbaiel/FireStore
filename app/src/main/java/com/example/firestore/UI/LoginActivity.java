@@ -21,6 +21,7 @@ import com.example.firestore.UI.Admin.AdminAddNewProductActivity;
 import com.example.firestore.Model.Users;
 import com.example.firestore.Prevalent.Prevalent;
 import com.example.firestore.R;
+import com.example.firestore.UI.Admin.AdminCategoryActivity;
 import com.example.firestore.UI.User.HomeActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -147,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
                                 loadingBar.dismiss();
                                 Toast.makeText(LoginActivity.this, "Успешный вход!", Toast.LENGTH_SHORT).show();
 
-                                Intent homeIntent = new Intent(LoginActivity.this, AdminAddNewProductActivity.class);
+                                Intent homeIntent = new Intent(LoginActivity.this, AdminCategoryActivity.class);
                                 startActivity(homeIntent);
                             }
                         }

@@ -26,19 +26,28 @@
         android:layout_below="@+id/words">
 
         <ImageView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:id="@+id/book"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginTop="30dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="15dp"
             android:src="@drawable/book"
             />
-            />
         <ImageView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:id="@+id/dishes"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="40dp"
             android:src="@drawable/dishes"
+            />
+        <ImageView
+            android:id="@+id/headphones"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/headphones"
             />
     </LinearLayout>
     <LinearLayout
@@ -48,19 +57,31 @@
         android:orientation="horizontal"
         android:layout_below="@+id/firstline">
 
+
         <ImageView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:id="@+id/phone"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/phone"
+            />
+
+        <ImageView
+            android:id="@+id/gamepad"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="40dp"
-            android:src="@drawable/headphones"
+            android:src="@drawable/gaming"
             />
         <ImageView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:id="@+id/work"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="40dp"
-            android:src="@drawable/phone"
+            android:src="@drawable/work"
             />
     </LinearLayout>
     <LinearLayout
@@ -71,18 +92,14 @@
         android:layout_below="@+id/secondline">
 
         <ImageView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:id="@+id/ball"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginTop="30dp"
-            android:layout_marginLeft="40dp"
-            android:src="@drawable/gaming"
-            />
-        <ImageView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="40dp"
-            android:src="@drawable/work"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/ball"
             />
     </LinearLayout>
+
+
 </RelativeLayout>
