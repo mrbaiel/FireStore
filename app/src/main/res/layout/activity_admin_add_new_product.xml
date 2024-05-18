@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,4 +7,92 @@
     android:layout_height="match_parent"
     tools:context=".UI.Admin.AdminAddNewProductActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Добавление товара"
+        android:textSize="30dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        />
+    <EditText
+        android:id="@+id/product_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@+id/text"
+        android:layout_marginTop="30dp"
+        android:hint="НАИМЕНОВАНИЕ ТОВАРА"
+        android:background="@drawable/input_desigh"
+        android:padding="20dp"
+
+        />
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@+id/product_name"
+        android:layout_marginTop="20dp"
+        android:hint="ОПИСАНИЕ ТОВАРА"
+        android:background="@drawable/input_desigh"
+        android:padding="20dp"
+
+        />
+    <EditText
+        android:id="@+id/cost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@+id/description"
+        android:layout_marginTop="20dp"
+        android:hint="СТОИМОСТЬ"
+        android:background="@drawable/input_desigh"
+        android:padding="20dp"
+
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cost"
+        android:layout_marginTop="40dp"
+        android:hint="Выбрать картину"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:layout_marginRight="160dp"
+        >
+
+
+    </TextView>
+    <ImageView
+        android:id="@+id/selectPicture"
+        android:layout_width="130dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/cost"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/mountain"
+
+        />
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/selectPicture"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="40dp"
+        android:text="Добавить"
+        android:textSize="20dp"
+        android:padding="20dp"
+
+        />
+
+</RelativeLayout>

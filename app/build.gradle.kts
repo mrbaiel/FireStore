@@ -48,5 +48,6 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.recyclerview:recyclerview:1.0.0")
     implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-storage:21.0.0")
     implementation("io.github.pilgr:paperdb:2.7.2")
 }

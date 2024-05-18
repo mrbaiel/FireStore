@@ -1,6 +1,9 @@
 package com.example.firestore.UI.Admin;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -14,6 +17,9 @@ import com.example.firestore.R;
 public class AdminAddNewProductActivity extends AppCompatActivity {
 
     private String categoryName;
+    private ImageView productImage;
+    private EditText productName, productDescription, productPrice;
+    private Button addNewProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
