@@ -1,6 +1,9 @@
-package com.example.firestore;
+package com.example.firestore.UI.Admin;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -9,7 +12,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.firestore.R;
+
 public class AdminAddNewProductActivity extends AppCompatActivity {
+
+    private String categoryName;
+    private ImageView productImage;
+    private EditText productName, productDescription, productPrice;
+    private Button addNewProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +32,7 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
             return insets;
         });
 
-        Toast.makeText(this, "Привет админ", Toast.LENGTH_SHORT).show();
+        categoryName = getIntent().getExtras().get("Category").toString();
+        Toast.makeText(this, "Категория : " + categoryName, Toast.LENGTH_SHORT).show();
     }
 }

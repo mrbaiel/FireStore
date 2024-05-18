@@ -17,6 +17,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.firestore.Model.Users;
 import com.example.firestore.Prevalent.Prevalent;
+import com.example.firestore.UI.User.HomeActivity;
+import com.example.firestore.UI.LoginActivity;
+import com.example.firestore.UI.RegisterActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

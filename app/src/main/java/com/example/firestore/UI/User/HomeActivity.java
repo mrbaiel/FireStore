@@ -1,4 +1,4 @@
-package com.example.firestore;
+package com.example.firestore.UI.User;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.firestore.R;
+import com.example.firestore.UI.LoginActivity;
 
 import io.paperdb.Paper;
 
