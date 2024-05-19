@@ -41,10 +41,10 @@ import java.util.Objects;
 public class AdminAddNewProductActivity extends AppCompatActivity {
 
     private String categoryName, Description, Price, PName;
-    private String saveCurrentData, saveCurrentTime, productRandomKey, addedpicture;
+    private String saveCurrentData, saveCurrentTime, productRandomKey, downloadImageUrl;
     private ImageView productImage;
     private EditText productName, productDescription, productPrice;
-    private Button addNewProduct;
+    private Button addNewProductButton;
     private static final int GALLERYPICK = 1;
     private Uri ImageUri;
     private StorageReference ProductImageRef;
@@ -52,7 +52,8 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
     private ProgressDialog loadingBar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_admin_add_new_product);
@@ -62,9 +63,11 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
             return insets;
         });
 
+        categoryName = getIntent().getExtras().get("Category").toString();
         init();
 
-        productImage.setOnClickListener(new View.OnClickListener() {
+        productImage.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
@@ -72,7 +75,7 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
             }
         });
 
-        addNewProduct.setOnClickListener(new View.OnClickListener() {
+        addNewProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -115,17 +118,19 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
         loadingBar.setMessage("Пожалуйста подождите");
         loadingBar.setCanceledOnTouchOutside(false);
         loadingBar.show();
-        loadingBar.dismiss();
 
 
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat currentDate = new SimpleDateFormat("dd.MM.yyyy");
+
+        SimpleDateFormat currentDate = new SimpleDateFormat("ddMMyyyy");
         saveCurrentData = currentDate.format(calendar.getTime());
-        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
+
+        SimpleDateFormat currentTime = new SimpleDateFormat("HHmmss");
         saveCurrentData = currentTime.format(calendar.getTime());
 
         productRandomKey = saveCurrentData + saveCurrentTime;
-        StorageReference filePath = ProductImageRef.child(ImageUri.getLastPathSegment() + productRandomKey + ".jpg");
+
+        final StorageReference filePath = ProductImageRef.child(ImageUri.getLastPathSegment() + productRandomKey + ".jpg");
 
         final UploadTask uploadTask = filePath.putFile(ImageUri);
 
@@ -135,6 +140,7 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
             {
                 String msg = error.toString();
                 Toast.makeText(AdminAddNewProductActivity.this, "Ошибка у вас " + msg, Toast.LENGTH_SHORT).show();
+                loadingBar.dismiss();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -149,13 +155,15 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             throw task.getException();
                         }
-                        addedpicture = filePath.getDownloadUrl().toString();
+                        downloadImageUrl = filePath.getDownloadUrl().toString();
                         return filePath.getDownloadUrl();
                     }
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if(task.isSuccessful()){
+                            downloadImageUrl = task.getResult().toString();
+
                             Toast.makeText(AdminAddNewProductActivity.this, "Изображение загружено", Toast.LENGTH_SHORT).show();
                             
                             SaveProductInfoToDatabase();
@@ -202,7 +210,8 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
 
     private void openGallery()
     {
-        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent galleryIntent = new Intent();
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent, GALLERYPICK);
     }
@@ -227,5 +236,7 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
         ProductImageRef = FirebaseStorage.getInstance().getReference().child("Product images");
         ProductRef = FirebaseDatabase.getInstance().getReference().child("Products");
         loadingBar = new ProgressDialog(this);
+        addNewProductButton = findViewById(R.id.addButton);
+
     }
 }
