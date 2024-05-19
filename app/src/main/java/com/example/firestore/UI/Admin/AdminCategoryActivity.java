@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.firestore.R;
 
 public class AdminCategoryActivity extends AppCompatActivity {
-    private ImageView book, dishes, headphones, phone, gamepad, work, ball;
+    private ImageView book, dishes, headphones, phone, gamepad, work, ball, clothes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +24,7 @@ public class AdminCategoryActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;});
+
         init();
 
         book.setOnClickListener(new View.OnClickListener()
@@ -90,6 +91,15 @@ public class AdminCategoryActivity extends AppCompatActivity {
             }
         });
 
+        clothes.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminCategoryActivity.this, AdminAddNewProductActivity.class);
+                intent.putExtra("Category", "clothes");
+                startActivity(intent);
+            }
+        });
     }
     private void init(){
         book = findViewById(R.id.book);
@@ -99,5 +109,6 @@ public class AdminCategoryActivity extends AppCompatActivity {
         gamepad = findViewById(R.id.gamepad);
         work = findViewById(R.id.work);
         ball = findViewById(R.id.ball);
+        clothes = findViewById(R.id.clothes);
     }
 }
