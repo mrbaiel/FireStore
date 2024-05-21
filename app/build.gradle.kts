@@ -31,6 +31,9 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    dataBinding{
+        enable = true
+    }
 }
 
 dependencies {
@@ -46,6 +49,7 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     testImplementation(libs.junit)
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
@@ -58,5 +62,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:21.0.0")
     implementation("io.github.pilgr:paperdb:2.7.2")
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.squareup.picasso:picasso:2.8")
+    androidTestImplementation("org.testng:testng:6.9.6")
 
 }

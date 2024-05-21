@@ -18,8 +18,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.firestore.Model.Users;
 import com.example.firestore.Prevalent.Prevalent;
 import com.example.firestore.UI.User.HomeActivity;
-import com.example.firestore.UI.LoginActivity;
-import com.example.firestore.UI.RegisterActivity;
+import com.example.firestore.UI.User.LoginActivity;
+import com.example.firestore.UI.User.RegisterActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -93,11 +93,13 @@ public class MainActivity extends AppCompatActivity {
                         if(usersData.getPassword().equals(password))
                         {
                             loadingBar.dismiss();
-                            Toast.makeText(MainActivity.this, "Успешный вход!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Вход выполнен!", Toast.LENGTH_SHORT).show();
 
                             Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
+                            homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             Prevalent.currentOnlineUser = usersData;
                             startActivity(homeIntent);
+                            finish();
                         }
                         else {
                             loadingBar.dismiss();
