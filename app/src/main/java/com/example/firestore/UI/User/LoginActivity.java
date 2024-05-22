@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         phoneInput = (EditText) findViewById(R.id.login_phone_number);
         passwordInput = (EditText) findViewById(R.id.login_password);
         loadingBar = new ProgressDialog(this);
-        checkBoxRememberMe = (CheckBox)findViewById(R.id.checkbox);
+       // checkBoxRememberMe = (CheckBox)findViewById(R.id.checkbox);
         AdminLink = (TextView)findViewById(R.id.admin_panel);
         ClientLink = (TextView)findViewById(R.id.client_panel);
         Paper.init(this) ;
