@@ -14,10 +14,10 @@
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/settings"
-            android:title="Выход" />
+            android:title="Настройки" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
-            android:title="Настройки" />
+            android:title="Выход" />
     </group>
 </menu>

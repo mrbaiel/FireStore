@@ -64,5 +64,7 @@ dependencies {
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.squareup.picasso:picasso:2.8")
     androidTestImplementation("org.testng:testng:6.9.6")
-
+    implementation ("com.google.android.material:material:1.6.0") // или более новая версия
+    implementation ("androidx.core:core-ktx:1.9.0")
+    implementation ("com.theartofdev.edmodo:android-image-cropper:2.8.+")
 }
