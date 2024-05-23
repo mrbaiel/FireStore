@@ -49,22 +49,22 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        loginBtn = (Button) findViewById(R.id.login_button);
-        phoneInput = (EditText) findViewById(R.id.login_phone_number);
-        passwordInput = (EditText) findViewById(R.id.login_password);
+        loginBtn = findViewById(R.id.login_button);
+        phoneInput = findViewById(R.id.login_phone_number);
+        passwordInput = findViewById(R.id.login_password);
         loadingBar = new ProgressDialog(this);
-       // checkBoxRememberMe = (CheckBox)findViewById(R.id.checkbox);
-        AdminLink = (TextView)findViewById(R.id.admin_panel);
-        ClientLink = (TextView)findViewById(R.id.client_panel);
-        Paper.init(this) ;
-        loginBtn.setOnClickListener(new View.OnClickListener()
-        {
+        checkBoxRememberMe = findViewById(R.id.checkbox);  // Инициализация CheckBox
+        AdminLink = findViewById(R.id.admin_panel);
+        ClientLink = findViewById(R.id.client_panel);
+        Paper.init(this);
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 loginUser();
             }
         });
+
         AdminLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 parentDbName = "Admins";
             }
         });
+
         ClientLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,16 +91,11 @@ public class LoginActivity extends AppCompatActivity {
         String phone = phoneInput.getText().toString();
         String password = passwordInput.getText().toString();
 
-        if(TextUtils.isEmpty(phone))
-        {
-            Toast.makeText(this, "Введите имя номер телефона", Toast.LENGTH_SHORT).show();
-        }
-        else if(TextUtils.isEmpty(password))
-        {
-            Toast.makeText(this, "Введите имя пароль", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+        if (TextUtils.isEmpty(phone)) {
+            Toast.makeText(this, "Введите номер телефона", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Введите пароль", Toast.LENGTH_SHORT).show();
+        } else {
             loadingBar.setTitle("Вход в аккаунт...");
             loadingBar.setMessage("Пожалуйста подождите");
             loadingBar.setCanceledOnTouchOutside(false);
@@ -111,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void ValidateUser(final String phone, final String password) {
 
-        if(checkBoxRememberMe.isChecked()){
+        if (checkBoxRememberMe.isChecked()) {
             Paper.book().write(Prevalent.UserPhoneKey, phone);
             Paper.book().write(Prevalent.UserPasswordKey, password);
         }
@@ -122,44 +118,34 @@ public class LoginActivity extends AppCompatActivity {
         RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(parentDbName).child(phone).exists())
-                {
+                if (dataSnapshot.child(parentDbName).child(phone).exists()) {
                     Users usersData = dataSnapshot.child(parentDbName).child(phone).getValue(Users.class);
 
-                    Toast.makeText(LoginActivity.this, "Phone validate:" + usersData.getPhone().toString(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(LoginActivity.this, "Passw:" + usersData.getPassword(), Toast.LENGTH_SHORT).show();
+                    if (usersData.getPhone().equals(phone)) {
 
-                    if(usersData.getPhone().equals(phone))
-                    {
-                        Toast.makeText(LoginActivity.this, "Phone validate", Toast.LENGTH_SHORT).show();
-
-                        if(usersData.getPassword().equals(password))
-                        {
-                            if(parentDbName.equals("Users")){
+                        if (usersData.getPassword().equals(password)) {
+                            if (parentDbName.equals("Users")) {
                                 loadingBar.dismiss();
                                 Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
                                 homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 Prevalent.currentOnlineUser = usersData;
                                 startActivity(homeIntent);
                                 finish();
-                            }
-                            else if(parentDbName.equals("Admins")){
+                            } else if (parentDbName.equals("Admins")) {
                                 Intent homeIntent = new Intent(LoginActivity.this, AdminCategoryActivity.class);
                                 homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 Prevalent.currentOnlineUser = usersData;
                                 startActivity(homeIntent);
                                 finish();
                             }
-                        }
-                        else {
+                        } else {
                             loadingBar.dismiss();
                             Toast.makeText(LoginActivity.this, "Неверный пароль", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }
-                else {
+                } else {
                     loadingBar.dismiss();
-                    Toast.makeText(LoginActivity.this, "Аккаунт с номером " + phone + "не существует", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Аккаунт с номером " + phone + " не существует", Toast.LENGTH_SHORT).show();
 
                     Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
                     startActivity(registerIntent);
@@ -172,5 +158,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 }
