@@ -1,11 +1,12 @@
-
 package com.example.firestore.UI.User;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,8 +19,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.firestore.Model.Products;
 import com.example.firestore.Prevalent.Prevalent;
 import com.example.firestore.R;
+import com.example.firestore.ViewHolder.ProductViewHolder;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -66,10 +71,38 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         TextView userNameTextView = headerView.findViewById(R.id.user_profile_name);
         CircleImageView profileImageView = headerView.findViewById(R.id.user_profile_image);
 
-
         userNameTextView.setText(Prevalent.currentOnlineUser.getName());
         Picasso.get().load(Prevalent.currentOnlineUser.getImage()).placeholder(R.drawable.user_profile_image).into(profileImageView);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseRecyclerOptions<Products> options = new FirebaseRecyclerOptions.Builder<Products>()
+                .setQuery(ProductsRef, Products.class)
+                .build();
+
+        FirebaseRecyclerAdapter<Products, ProductViewHolder> adapter = new FirebaseRecyclerAdapter<Products, ProductViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull ProductViewHolder holder, int position, @NonNull Products model) {
+                holder.txtProductName.setText(model.getPname());
+                holder.txtProductDescription.setText("Номер телефона " + model.getDescription());
+                holder.txtProductPrice.setText("Стоимость " + model.getPrice() + " рублей");
+                Picasso.get().load(model.getImage()).into(holder.imageView);
+
+            }
+
+            @NonNull
+            @Override
+            public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.products_items_layout, parent, false);
+                return new ProductViewHolder(view);
+            }
+        };
+
+        recyclerView.setAdapter(adapter);
+        adapter.startListening();
     }
 
     @Override
@@ -94,7 +127,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_settings) {
             Intent loginIntent = new Intent(HomeActivity.this, SettingsActivity.class);
             startActivity(loginIntent);
-
         } else if (id == R.id.nav_logout) {
             Paper.book().destroy();
             Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);

@@ -37,7 +37,7 @@
         android:layout_marginRight="15dp"
         android:layout_below="@+id/product_name"
         android:layout_marginTop="20dp"
-        android:hint="ОПИСАНИЕ ТОВАРА"
+        android:hint="НОМЕР ТЕЛЕФОНА ВЛАДЕЛЬЦА"
         android:background="@drawable/input_desigh"
         android:padding="20dp"
 
