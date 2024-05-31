@@ -88,7 +88,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             protected void onBindViewHolder(@NonNull ProductViewHolder holder, int position, @NonNull Products model) {
                 holder.txtProductName.setText(model.getPname());
                 holder.txtProductDescription.setText("Номер телефона " + model.getDescription());
-                holder.txtProductPrice.setText("Стоимость " + model.getPrice() + " рублей");
+                holder.txtProductPrice.setText("Стоимость " + model.getPrice() + " руб");
                 Picasso.get().load(model.getImage()).into(holder.imageView);
 
             }
