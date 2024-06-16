@@ -101,7 +101,8 @@ dependencies {
     Авторизация пользователей: Регистрация и вход через Firebase Authentication.
     База данных в реальном времени: Использование Firebase Realtime Database для хранения и получения данных.
     Загрузка и отображение изображений: Использование Firebase Storage для загрузки изображений и Picasso для их отображения.
-    Поддержка offline режима: Работа с базой данных даже при отсутствии интернета.
+    Поддержка offline режима: Работа с базой данных даже при отсутст
+    вии интернета.
 
 Структура проекта
 
@@ -118,3 +119,13 @@ dependencies {
 Этот проект лицензируется в соответствии с условиями лицензии MIT. Подробности можно найти в файле LICENSE.
 
 Настройте этот шаблон в соответствии с вашими конкретными требованиями и особенностями проекта.
+![111](https://github.com/mrbaiel/FireStore/assets/151663535/c1385543-5beb-4a68-9aa8-4ec2e26f586e)
+![123](https://github.com/mrbaiel/FireStore/assets/151663535/b941c56c-b114-4126-a0f1-10769f540de4)
+![1233](https://github.com/mrbaiel/FireStore/assets/151663535/764e10a2-6399-4910-a716-d1d92240aad8)
+![124](https://github.com/mrbaiel/FireStore/assets/151663535/cebdc4c3-0f6d-4a50-8b71-ee1f03b0e95a)
+![125](https://github.com/mrbaiel/FireStore/assets/151663535/b089b20b-a403-4f44-90db-e596265326be)
+![126](https://github.com/mrbaiel/FireStore/assets/151663535/22162b7c-4c97-4cc5-8290-98d7297cd4b1)
+![112](https://github.com/mrbaiel/FireStore/assets/151663535/bcc550cd-0d13-42f7-95ec-afe97afc7fd5)
+
+
+
